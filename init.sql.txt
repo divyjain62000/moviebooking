@@ -1,0 +1,4 @@
+drop database cinemadb;
+CREATE DATABASE cinemadb;
+CREATE USER 'cinemadbuser'@'localhost' IDENTIFIED BY 'cinemadbuser';
+GRANT ALL PRIVILEGES ON `cinemadb`.* TO 'cinemadbuser'@'localhost' WITH GRANT OPTION;

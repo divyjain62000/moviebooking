@@ -19,11 +19,13 @@ public class User {
 	
 	private String password;
 	
+	private boolean isAdmin;
+	
 	public User() {
 		super();
 	}
 
-	public User(int id, String firstName, String lastName, String email,String mobileNumber,String password) {
+	public User(int id, String firstName, String lastName, String email,String mobileNumber,String password,boolean isAdmin) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -31,6 +33,7 @@ public class User {
 		this.email = email;
 		this.mobileNumber=mobileNumber;
 		this.password=password;
+		this.isAdmin=isAdmin;
 	}
 
 	public int getId() {
@@ -83,11 +86,21 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", mobileNumber=" + mobileNumber + ", password=" + password + "]";
+				+ ", mobileNumber=" + mobileNumber + ", password=" + password + ", isAdmin=" + isAdmin + "]";
 	}
 
 }
