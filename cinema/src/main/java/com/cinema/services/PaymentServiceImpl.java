@@ -14,7 +14,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Autowired
 	private PaymentRepository paymentRepository;
-	
+
 	@Override
 	public Payment save(Payment payment) {
 		payment.setPaymentDateTime(LocalDateTime.now());
@@ -29,11 +29,19 @@ public class PaymentServiceImpl implements PaymentService {
 			return p.get();
 		return null;
 	}
-	
+
 	@Override
 	public Payment getByBookingId(int bookingId) {
-		Optional<Payment> p=this.paymentRepository.findByBookingId(bookingId);
-		if(!p.isPresent()) return null;
+		Optional<Payment> p = this.paymentRepository.findByBookingId(bookingId);
+		if (!p.isPresent())
+			return null;
 		return p.get();
+	}
+
+	@Override
+	public Payment delete(int id) {
+		Payment payment = this.paymentRepository.findById(id).get();
+		this.paymentRepository.delete(payment);
+		return payment;
 	}
 }

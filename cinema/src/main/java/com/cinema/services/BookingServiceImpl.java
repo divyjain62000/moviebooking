@@ -22,7 +22,7 @@ public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	private MovieShowService movieShowService;
-	
+
 	@Autowired
 	private PaymentService paymentService;
 
@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
 		}
 		booking.setBookingDateTime(LocalDateTime.now());
 		Booking createdBooking = this.bookingRepository.save(booking);
-		movieShow.setAvailableSeats((short)(movieShow.getAvailableSeats()-booking.getTotalBookedSeats()));
+		movieShow.setAvailableSeats((short) (movieShow.getAvailableSeats() - booking.getTotalBookedSeats()));
 		this.movieShowService.update(movieShow, movieShow.getId());
 		return createdBooking;
 	}
@@ -58,36 +58,38 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public List<BookingDTO> getAll() {
 		List<Booking> bookingList = this.bookingRepository.findAll();
-		List<BookingDTO> res=new ArrayList<>();
-		for(Booking b:bookingList) {
-			Payment p=this.paymentService.getByBookingId(b.getId());
-			BookingDTO bookingDTO=new BookingDTO();
+		List<BookingDTO> res = new ArrayList<>();
+		for (Booking b : bookingList) {
+			Payment p = this.paymentService.getByBookingId(b.getId());
+			BookingDTO bookingDTO = new BookingDTO();
 			bookingDTO.setBooking(b);
 			bookingDTO.setPayment(p);
 			res.add(bookingDTO);
 		}
- 		return res;
+		return res;
 	}
 
 	@Override
 	public List<BookingDTO> getAllByUserId(int userId) {
 		List<Booking> bookingList = this.bookingRepository.findAllByUserId(userId);
-		List<BookingDTO> res=new ArrayList<>();
-		for(Booking b:bookingList) {
-			Payment p=this.paymentService.getByBookingId(b.getId());
-			BookingDTO bookingDTO=new BookingDTO();
+		List<BookingDTO> res = new ArrayList<>();
+		for (Booking b : bookingList) {
+			Payment p = this.paymentService.getByBookingId(b.getId());
+			BookingDTO bookingDTO = new BookingDTO();
 			bookingDTO.setBooking(b);
 			bookingDTO.setPayment(p);
 			res.add(bookingDTO);
 		}
- 		return res;
+		return res;
 	}
 
 	@Override
 	public Booking delete(int id) {
 		Booking booking = this.bookingRepository.findById(id).get();
 		MovieShow movieShow = this.movieShowService.getById(booking.getMovieShow().getId());
-		movieShow.setAvailableSeats((short)(movieShow.getAvailableSeats()+booking.getTotalBookedSeats()));
+		movieShow.setAvailableSeats((short) (movieShow.getAvailableSeats() + booking.getTotalBookedSeats()));
+		Payment payment = this.paymentService.getByBookingId(id);
+		this.paymentService.delete(payment.getId());
 		this.bookingRepository.delete(booking);
 		this.movieShowService.update(movieShow, movieShow.getId());
 		return booking;

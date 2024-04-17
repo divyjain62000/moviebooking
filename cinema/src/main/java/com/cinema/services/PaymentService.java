@@ -9,4 +9,6 @@ public interface PaymentService {
 	Payment getById(int id);
 	
 	Payment getByBookingId(int bookingId);
+	
+	Payment delete(int id);
 }
