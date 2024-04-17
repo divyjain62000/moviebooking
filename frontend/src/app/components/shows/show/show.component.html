@@ -1,0 +1,50 @@
+<div *ngIf="show" class="card border-light-subtle shadow-sm">
+    <div class="row p-3">
+        <div class="col-3">
+            <img [src]="show.posterURL" [alt]="show.movieName" class="poster" />
+        </div>
+        <div class="col-9 d-flex flex-column justify-content-between py-2">
+            <div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4>{{show.movieName}}</h4>
+                    <div class="d-flex align-items-center">
+                        <img src="./assets/icons/location.svg" class="location-icon" />
+                        <div>{{show.theaterAddress}}</div>
+                    </div>
+                </div>
+                <div class="my-2">
+                    <div class="d-flex gap-1">
+                        <p class="show-label">Timing: </p>
+                        <p>{{show.showTimming | date:'long'}}</p>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <p class="show-label">Available Seats: </p>
+                        <p>{{show.availableSeats}}</p>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <p class="show-label">Ticket Price: </p>
+                        <p>{{show.ticketPrice}} AED</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!authService.isAdmin() else adminConfig">
+                <div *ngIf="show.availableSeats > 0 else soldOut">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="openBookingConfirmationModal()">Book
+                        Now</button>
+                </div>
+                <ng-template #soldOut>
+                    <button type="button" disabled class="btn btn-secondary btn-sm">Sold Out</button>
+                </ng-template>
+            </div>
+            <ng-template #adminConfig>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-warning btn-sm" (click)="editShow(show.id || 0)">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm"
+                        (click)="deleteShow(show.id || 0)">Delete</button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<app-booking-confirmation [show]="show"></app-booking-confirmation>

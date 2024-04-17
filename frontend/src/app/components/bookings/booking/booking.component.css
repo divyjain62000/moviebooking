@@ -1,0 +1,16 @@
+.poster {
+    width: 18rem;
+    height: 18rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.location-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.booking-label {
+    font-size: 1rem;
+    font-weight: 500;
+}

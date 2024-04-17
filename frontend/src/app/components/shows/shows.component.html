@@ -1,0 +1,21 @@
+<section class="p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-5">
+                    <h3>Now Showing</h3>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="shows.length === 0 else showList">
+            <h5 class="text-center my-6">No shows available</h5>
+        </div>
+        <ng-template #showList>
+            <div class="d-flex flex-column gap-4">
+                <div *ngFor="let show of shows">
+                    <app-show [show]="show"></app-show>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</section>

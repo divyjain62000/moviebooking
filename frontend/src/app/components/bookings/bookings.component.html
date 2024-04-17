@@ -1,0 +1,21 @@
+<section class="p-3 p-md-4 p-xl-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-5">
+                    <h3>My Bookings</h3>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="bookings.length === 0 else bookingList">
+            <h5 class="text-center my-6">No booking available</h5>
+        </div>
+        <ng-template #bookingList>
+            <div class="d-flex flex-column gap-4">
+                <div *ngFor="let booking of bookings">
+                    <app-booking [bookingData]="booking"></app-booking>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</section>

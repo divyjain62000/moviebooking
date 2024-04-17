@@ -1,0 +1,128 @@
+<!-- Booking Confirmation Modal -->
+<div *ngIf="show" class="modal fade" [id]="'bookingConfirmation' + show.id" tabindex="-1"
+    aria-labelledby="bookingConfirmationLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="bookingConfirmationLabel">{{show.movieName}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form name="booking-form" #f="ngForm" (ngSubmit)="f.form.valid && onBooking()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <img [src]="show.posterURL" [alt]="show.movieName" class="booking-poster" />
+                        </div>
+                        <div class="col-8">
+                            <div class="row gy-3 gy-md-4 overflow-hidden">
+                                <div class="col-12">
+                                    <label for="totalBookedSeats" class="form-label">
+                                        Enter number of seats <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" name="totalBookedSeats"
+                                        id="totalBookedSeats" required [(ngModel)]="bookingForm.totalBookedSeats"
+                                        #totalBookedSeats="ngModel" max="10" min="1"
+                                        [ngClass]="{ 'is-invalid': f.submitted && totalBookedSeats.errors }">
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex gap-1">
+                                        <p class="show-label">Total Price: </p>
+                                        <p>{{bookingForm.totalBookedSeats * show.ticketPrice}} AED</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-primary w-100">Confirm
+                        Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Confirmation Modal -->
+<div *ngIf="show" class="modal fade" [id]="'paymentConfirmation' + show.id " tabindex="-1"
+    aria-labelledby="paymentConfirmationLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="paymentConfirmationLabel">Confirm Payment</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form name="payment-form" #f="ngForm" (ngSubmit)="f.form.valid && onPayment()">
+                <div class="modal-body">
+                    <div class="row gy-3 gy-md-4 overflow-hidden">
+                        <div class="col-12">
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" id="creditCard" name="paymentMode"
+                                    [(ngModel)]="paymentForm.paymentMode" value="Credit Card" checked>Credit Card
+                                <label class="form-check-label" for="creditCard"></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" id="debitCard" name="paymentMode"
+                                    [(ngModel)]="paymentForm.paymentMode" value="Debit Card" checked>Debit Card
+                                <label class="form-check-label" for="debitCard"></label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="cardNumber" class="form-label">
+                                Card Number <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="cardNumber" id="cardNumber" minlength="16"
+                                maxlength="16" required [(ngModel)]="paymentForm.cardNumber" #cardNumber="ngModel"
+                                [ngClass]="{ 'is-invalid': f.submitted && cardNumber.errors }">
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="month" class="form-label">
+                                                Month<span class="text-danger">*</span>
+                                            </label>
+                                            <input type="number" class="form-control" name="month" id="month" min="1"
+                                                max="12" required [(ngModel)]="paymentForm.month" #month="ngModel"
+                                                [ngClass]="{ 'is-invalid': f.submitted && month.errors }">
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="year" class="form-label">
+                                                Year <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="number" class="form-control" name="year" id="year" min="2024"
+                                                max="2034" required [(ngModel)]="paymentForm.year" #year="ngModel"
+                                                [ngClass]="{ 'is-invalid': f.submitted && year.errors }">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="cvv" class="form-label">
+                                        CVV <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="number" class="form-control" name="cvv" id="cvv" minlength="3"
+                                        maxlength="3" required [(ngModel)]="paymentForm.cvv" #cvv="ngModel"
+                                        [ngClass]="{ 'is-invalid': f.submitted && cvv.errors }">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="totalAmount" class="form-label">
+                                Total Amount (AED) <span class="text-danger">*</span>
+                            </label>
+                            <input type="number" disabled class="form-control" name="totalAmount" id="totalAmount"
+                                [value]="bookingForm.totalBookedSeats * show.ticketPrice">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex gap-4">
+                        <button type="button" class="btn btn-sm btn-danger" (click)="cancelBooking()">Cancel</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Pay now</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
