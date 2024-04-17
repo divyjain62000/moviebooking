@@ -31,13 +31,13 @@ public class MovieController {
 	}
 
 	@PutMapping("/movie-shows/{id}")
-	ResponseEntity<MovieShow> update(@RequestBody MovieShow movieShow, @PathVariable(name="id") int id) {
+	ResponseEntity<MovieShow> update(@RequestBody MovieShow movieShow, @PathVariable(name = "id") int id) {
 		MovieShow m = this.movieShowService.update(movieShow, id);
 		return ResponseEntity.status(HttpStatus.OK).body(m);
 	}
 
 	@DeleteMapping("/movie-shows/{id}")
-	ResponseEntity<MovieShow> delete(@PathVariable(name="id") int id) {
+	ResponseEntity<MovieShow> delete(@PathVariable(name = "id") int id) {
 		MovieShow movieShow = this.movieShowService.delete(id);
 		return ResponseEntity.status(HttpStatus.OK).body(movieShow);
 	}
@@ -46,6 +46,12 @@ public class MovieController {
 	ResponseEntity<List<MovieShow>> getAll() {
 		List<MovieShow> movieShowList = this.movieShowService.getAll();
 		return ResponseEntity.status(HttpStatus.OK).body(movieShowList);
+	}
+
+	@GetMapping("/movie-shows/{id}")
+	ResponseEntity<MovieShow> getById(@PathVariable(name = "id") int id) {
+		MovieShow movieShow = this.movieShowService.getById(id);
+		return ResponseEntity.status(HttpStatus.OK).body(movieShow);
 	}
 
 }
